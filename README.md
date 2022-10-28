@@ -39,11 +39,11 @@ You can switch among the metrics using tabs. Each tab view contains 6 charts,  r
 
 ![screenshot](screenshots/hist.PNG)
 
-* Between 1st Jan 22 and 21th Oct 22 the top customer when it comes to transcoded duration is **5ef4**. The top new customer is **a0c2** and represents almost 10% of the top 10 customers in terms of duration. We assumed the top new customers as future potentials.
+* Between 1st Jan 22 and 21th Oct 22, the top customer when it comes to transcoded duration is **5ef4**. The top new customer is **a0c2** and represents almost 10% of the top 10 customers in terms of duration. We assumed the top new customers as future potentials.
 
 ![screenshot](screenshots/top_trans.PNG)
 
-For Video Uploaded we had **3fcf** and **5b59** as the top customer and top new customers respectively
+For video uploaded, we have **3fcf** and **5b59** as the top customer and top new customer respectively
 
 ![screenshot](screenshots/top_video.PNG)
 
