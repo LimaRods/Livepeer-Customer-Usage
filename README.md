@@ -35,7 +35,7 @@ You can switch among the metrics using tabs. Each tab view contains 6 charts,  r
 
 ## 4. Conclusions
 
-* Looking at the histogram for the transcoded duration, we can notice that few daily usages account for most of the total duration, and hence, few customers generate a relevant part of the total revenue from the streaming service.
+* Looking at the histogram for the transcoded duration, we can notice that few daily usages account for most of the total duration, and hence, few customers generate a relevant part of the total revenue from the streaming service. Surprisingly, the top 5 customers for transcoded duration account together to 90% of total transcoded videos.
 
 ![screenshot](screenshots/hist.PNG)
 
