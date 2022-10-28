@@ -282,11 +282,12 @@ def render_content(tab,N,json_dict):
     fig_pct_change = go.Figure(layout= layout)
     fig_pct_change.add_trace(go.Scatter(x = df_pct_change.index, y = df_pct_change[tab], mode = 'lines', name = 'lines'))
     fig_pct_change.update_traces(marker_color = clear_color_chart)
+    fig_pct_change.update_layout(title_text='{} - Histogram of Customer Usage'.format(" ".join(tab.split('_')).capitalize()))
 
     # Histogram
     fig_hist = go.Figure(data = [go.Histogram(x = df[tab], nbinsx = 200)], layout = layout)
     fig_hist.update_traces(marker_color = dark_color_chart)
-    fig_hist.update_layout(title_text='{} - Histogram of Customer Usage'.format(" ".join(tab.split('_')).capitalize()))
+    fig_hist.update_layout(title_text='{} - Percent Variation Over Time'.format(" ".join(tab.split('_')).capitalize()))
 
     #Ranking Chart
     df_rank = df.groupby(by = 'cust_id').agg({'source_duration': np.sum,
