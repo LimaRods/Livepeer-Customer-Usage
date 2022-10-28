@@ -71,10 +71,10 @@ app.layout = html.Div([
                 html.Div(
                     [
                         html.Img(
-                            src=app.get_asset_url("dash-logo.png"),
+                            src=app.get_asset_url("logo.svg"),
                             id="plotly-image",
                             style={
-                                "height": "60px",
+                                "height": "80px",
                                 "width": "auto",
                                 "margin-bottom": "25px",
                             },
@@ -105,7 +105,7 @@ app.layout = html.Div([
             [
                 html.Div([
                     #Date Picker
-                    html.P('Filter by range date', className = 'control_label'),
+                    html.P('Date Range', className = 'control_label'),
                     dcc.DatePickerRange(
                         id='my-date-picker-range',
                         min_date_allowed= start_date,
@@ -118,7 +118,7 @@ app.layout = html.Div([
                         className = 'dcc_control'),
 
                     #Date Granunality
-                    html.P("Date Granunality", className = 'control_label'),
+                    html.P("Date Granularity", className = 'control_label'),
                     dcc.Dropdown(
                         id = 'granunality-drop',
                         options= [{"label": i, "value": i} for i in ['Day','Month','Year']],
@@ -135,20 +135,19 @@ app.layout = html.Div([
                         clearable = False,
                         value = 5,
                         style = {'width':'30%'},
-                        className = 'dcc_control'),
-                    
+                        className = 'dcc_control')],
                     #Customize
-                    html.P("Customers", className = 'control_label'),
-                    dcc.Dropdown(
-                        id="customers-drop",
-                        options= [{"label": i, "value": i} for i in list(set(df.cust_id.to_list())) +['All']],
-                        value = 'All',
-                        clearable = False,
-                        multi= False,   
-                        style = {'width':'50%'},
-                        className="dcc_control",
-                        )
-                ],
+                    #html.P("Customers", className = 'control_label'),
+                    #dcc.Dropdown(
+                     #   id="customers-drop",
+                      #  options= [{"label": i, "value": i} for i in list(set(df.cust_id.to_list())) +['All']],
+                       # value = 'All',
+                        #clearable = False,
+                        #multi= False,   
+                        #style = {'width':'50%'},
+                        #className="dcc_control",
+                        #)
+                #],
                 className="pretty_container twelve columns",
                 id="cross-filter-options"
                 )        
@@ -205,17 +204,12 @@ app.layout = html.Div([
     Output(component_id = "aggregate_data", component_property = 'data'),
     [Input(component_id = 'my-date-picker-range', component_property = 'start_date'),
     Input(component_id = 'my-date-picker-range', component_property = 'end_date'),
-    Input(component_id = 'granunality-drop', component_property = 'value'),
-    Input(component_id = 'customers-drop', component_property = 'value')]
+    Input(component_id = 'granunality-drop', component_property = 'value')]
 )
 
-def data_filtered(start_date,end_date,time,client):
+def data_filtered(start_date,end_date,time):
     
-    if client == 'All':
-        df_filter = df.loc[start_date:end_date].to_period(date_granularity[time]).reset_index()
-    else:
-        df_filter = df[df.cust_id == client].loc[start_date:end_date].to_period(date_granularity[time]).reset_index()
-
+    df_filter = df.loc[start_date:end_date].to_period(date_granularity[time]).reset_index()
     df_filter = df_filter.reset_index(drop = True)
     df_filter.usage_date = df_filter.usage_date.apply(lambda x: x.to_timestamp())
     data_dict = df_filter.to_dict(orient = 'record')
