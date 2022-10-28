@@ -236,9 +236,17 @@ def display_numbers(json_dict):
                 html.Br(),
                 html.P(numb, className = "big-numbers"),
                 ])
-    transcode = format_num("Transcoded Duration",df_total['transcoded_duration'])
-    source = format_num("Source Duration",df_total['source_duration'])
-    video = format_num("Video Duration",df_total['video_duration'])
+    def human_format(num):
+        num = float('{:.3g}'.format(num))
+        magnitude = 0
+        while abs(num) >= 1000:
+            magnitude += 1
+            num /= 1000.0
+        return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
+
+    transcode = format_num("Transcoded Duration",human_format(df_total['transcoded_duration']))
+    source = format_num("Source Duration",human_format(df_total['source_duration']))
+    video = format_num("Video Duration",human_format(df_total['video_duration']))
 
     return transcode, source, video
 
@@ -282,12 +290,12 @@ def render_content(tab,N,json_dict):
     fig_pct_change = go.Figure(layout= layout)
     fig_pct_change.add_trace(go.Scatter(x = df_pct_change.index, y = df_pct_change[tab], mode = 'lines', name = 'lines'))
     fig_pct_change.update_traces(marker_color = clear_color_chart)
-    fig_pct_change.update_layout(title_text='{} - Histogram of Customer Usage'.format(" ".join(tab.split('_')).capitalize()))
+    fig_pct_change.update_layout(title_text='{} - Percent Variation Over Time'.format(" ".join(tab.split('_')).capitalize()))
 
     # Histogram
     fig_hist = go.Figure(data = [go.Histogram(x = df[tab], nbinsx = 200)], layout = layout)
     fig_hist.update_traces(marker_color = dark_color_chart)
-    fig_hist.update_layout(title_text='{} - Percent Variation Over Time'.format(" ".join(tab.split('_')).capitalize()))
+    fig_hist.update_layout(title_text='{} - Histogram of Customer Usage'.format(" ".join(tab.split('_')).capitalize()))
 
     #Ranking Chart
     df_rank = df.groupby(by = 'cust_id').agg({'source_duration': np.sum,
